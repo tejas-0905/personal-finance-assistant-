@@ -547,7 +547,7 @@ with col1:
         type=["csv"]
     )
     sample_checkbox = st.checkbox(
-        "📋 Use Sample Data",
+        "📋 Use Sample Data   ",
         value=False
     )
 
