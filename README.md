@@ -32,8 +32,8 @@ As the project grows, you can split `app.py` into modules such as `models.py`, `
 
 ---
 
-## Getting Started
-🔗 https://your-app-name.streamlit.app
+## 🌐 Live Demo
+🔗 https://personalfin.streamlit.app/
 
 ---
 
