@@ -33,13 +33,31 @@ As the project grows, you can split `app.py` into modules such as `models.py`, `
 ---
 
 ## Getting Started
+🔗 https://your-app-name.streamlit.app
+
+---
+
+## 🛠 Tech Stack
+- **Frontend**: Streamlit
+- **Backend**: Python
+- **ML**: Scikit-learn
+- **Visualization**: Plotly, Matplotlib
+- **Deployment**: Streamlit Cloud
+
+---
+
+## ⚙️ Installation & Setup
+
+```bash
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
+pip install -r requirements.txt
+streamlit run app.py
 
 ### Prerequisites
 
 - Python 3.10 or higher installed on your system.
 - Git installed to clone the repository.
-
-### Installation
 
 #### Clone the repository
 
@@ -117,4 +135,5 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 ![Python](https://img.shields.io/badge/Python-3.10-blue)
 ![Streamlit](https://img.shields.io/badge/Streamlit-App-red)
 ![License](https://img.shields.io/badge/License-MIT-green)
+
 
