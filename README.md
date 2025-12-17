@@ -31,12 +31,12 @@ As the project grows, you can split `app.py` into modules such as `models.py`, `
 
 ---
 
-## 🌐 Live Demo
+##  Live Demo
 🔗 https://personalfin.streamlit.app/
 
 ---
 
-## 🛠 Tech Stack
+##  Tech Stack
 - **Frontend**: Streamlit
 - **Backend**: Python
 - **ML**: Scikit-learn
@@ -45,7 +45,7 @@ As the project grows, you can split `app.py` into modules such as `models.py`, `
 
 ---
 
-## ⚙️ Installation & Setup
+##  Installation & Setup
 
 ```bash
 git clone https://github.com/your-username/your-repo-name.git
