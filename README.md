@@ -115,17 +115,6 @@ Replace these examples with the actual flags and options implemented in your scr
 
 ---
 
-## Roadmap
-
-Planned improvements and ideas:
-
-- Persist data using CSV, JSON, or a lightweight database such as SQLite.
-- Add monthly and category-wise budget tracking and alerts.
-- Integrate simple charts using libraries like Matplotlib or Plotly for visual insights.
-- Experiment with AI features (e.g., natural language queries about spending habits) using open-source or hosted LLM APIs.
-
----
-
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
