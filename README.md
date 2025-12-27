@@ -6,7 +6,7 @@ Personal Finance Assistant is a Python-based command-line utility that helps use
 
 ## Features
 
-- Add and manage income and expense transactions from the command line.
+- Add and manage income and expense  from the command line.
 - Track key attributes such as amount, date, category, and description.
 - View summarized reports such as total income, total expenses, and net savings.
 - Easily extendable to include budgeting, visualization, or AI-based recommendation modules.
