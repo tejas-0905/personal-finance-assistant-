@@ -6,12 +6,10 @@ Personal Finance Assistant is a Python-based command-line utility that helps use
 
 ## Features
 
-- Add and manage income and expense transactions from the command line.
+- Add and manage income and expense  from the command line.
 - Track key attributes such as amount, date, category, and description.
 - View summarized reports such as total income, total expenses, and net savings.
 - Easily extendable to include budgeting, visualization, or AI-based recommendation modules.
-
-> Update this section as you implement more capabilities (for example, CSV import/export, monthly budgeting, or LLM-based insights).
 
 ---
 
@@ -32,14 +30,32 @@ As the project grows, you can split `app.py` into modules such as `models.py`, `
 
 ---
 
-## Getting Started
+##  Live Demo
+🔗 https://personalfin.streamlit.app/
+
+---
+
+##  Tech Stack
+- **Frontend**: Streamlit
+- **Backend**: Python
+- **ML**: Scikit-learn
+- **Visualization**: Plotly, Matplotlib
+- **Deployment**: Streamlit Cloud
+
+---
+
+##  Installation & Setup
+
+```bash
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
+pip install -r requirements.txt
+streamlit run app.py
 
 ### Prerequisites
 
 - Python 3.10 or higher installed on your system.
 - Git installed to clone the repository.
-
-### Installation
 
 #### Clone the repository
 
@@ -98,28 +114,13 @@ Replace these examples with the actual flags and options implemented in your scr
 
 ---
 
-## Roadmap
-
-Planned improvements and ideas:
-
-- Persist data using CSV, JSON, or a lightweight database such as SQLite.
-- Add monthly and category-wise budget tracking and alerts.
-- Integrate simple charts using libraries like Matplotlib or Plotly for visual insights.
-- Experiment with AI features (e.g., natural language queries about spending habits) using open-source or hosted LLM APIs.
-
----
-
-## Contributing
-
-Contributions, feedback, and suggestions are welcome.
-
-1. Fork the repository.
-2. Create a new branch for your feature or fix.
-3. Commit your changes with clear messages.
-4. Open a pull request describing your changes and motivation.
-
----
-
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
+
+
+![Python](https://img.shields.io/badge/Python-3.10-blue)
+![Streamlit](https://img.shields.io/badge/Streamlit-App-red)
+![License](https://img.shields.io/badge/License-MIT-green)
+
+
