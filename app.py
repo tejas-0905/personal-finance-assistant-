@@ -16,7 +16,7 @@ from statsmodels.tsa.statespace.sarimax import SARIMAX
 # Page Configuration
 # -----------------------------
 st.set_page_config(
-    page_title="Personal Finance Assistant",
+    page_title="Finance Assistant",
     page_icon="",
     layout="wide",
     initial_sidebar_state="expanded"
