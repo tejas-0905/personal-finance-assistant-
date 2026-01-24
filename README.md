@@ -9,7 +9,8 @@ Personal Finance Assistant is a Python-based command-line utility that helps use
 
 ## 🎥 App Demo
 
-![App Demo](personal-finance.gif)
+![Personal Finance Assistant Demo](finance-assistant.gif)
+
 
 ---
 
