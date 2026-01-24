@@ -6,7 +6,13 @@
 Personal Finance Assistant is a Python-based command-line utility that helps users track income and expenses, organize transactions into categories, and gain a simple overview of their personal finances. It is designed as a lightweight, extensible starting point for building more advanced finance tools such as budgeting dashboards.
 
 ---
-https://github.com/tejas-0905/personal-finance-assistant/raw/master/personal-finance-assistant%20demo-video.mp4
+
+## 🎥 App Demo
+
+![App Demo](personal-finance.gif)
+
+---
+
 ## Features
 
 - Add and manage income and expense  from the command line.
