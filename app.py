@@ -503,7 +503,7 @@ def budget_recommendations(df, monthly_spend, forecast, target_savings_rate=0.2)
     expense_data = recent_months[recent_months["amount"] < 0]
     if len(expense_data) > 0:
         cat_spend = (-expense_data.groupby("category")["amount"].sum()).sort_values(ascending=False)
-        out.append("\\n**🏆 Top spending categories (last 3 months):**")
+        out.append("**🏆 Top spending categories (last 3 months):**")
         for i, (cat, amt) in enumerate(cat_spend.head(5).items()):
             pct = (amt / cat_spend.sum())*100
             emoji = ["🥇", "🥈", "🥉", "4️⃣", "5️⃣"][i]
