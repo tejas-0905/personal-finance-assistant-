@@ -107,22 +107,48 @@ def generate_pdf_report(data):
     content.append(Paragraph("📊 Spending Analysis", section_style))
 
     image_paths = []
+    chart_pairs = [data["charts"][i:i+2] for i in range(0, len(data["charts"]), 2)]
+    for pair in chart_pairs:
+        row = []
 
-    for title, fig in data["charts"]:
-        img_path = f"{title}.png".replace(" ", "_")
-        save_plotly(fig, img_path)
-        image_paths.append(img_path)
 
-        content.append(Paragraph(title, styles['Heading3']))
+        for title, fig in pair:
+            img_path = f"{title}.png".replace(" ", "_")
+            save_plotly(fig, img_path)
+            image_paths.append(img_path)
 
-        img = Image(img_path)
-        img.drawHeight = 240
-        img.drawWidth = 460
+            img = Image(img_path)
+            img.drawHeight = 200   # ✅ optimized for A4
+            img.drawWidth = 240    # ✅ half width
 
-        content.append(img)
-        content.append(Spacer(1, 18))
-
-    content.append(PageBreak())
+            block = [
+                Paragraph(title, styles['Heading4']),
+                Spacer(1, 5),
+                img
+            ]
+            
+            row.append(block)
+        
+         # If only one chart, add empty placeholder
+        if len(row) == 1:
+            row.append("")
+        table = Table([row], colWidths=[260, 260])
+        
+        table.setStyle(TableStyle([
+            ("VALIGN", (0,0), (-1,-1), "TOP"),
+            ("ALIGN", (0,0), (-1,-1), "CENTER"),
+            ("LEFTPADDING", (0,0), (-1,-1), 10),
+            ("RIGHTPADDING", (0,0), (-1,-1), 10),
+            ("BOTTOMPADDING", (0,0), (-1,-1), 20),
+        ]))
+        
+        content.append(table)
+        content.append(Spacer(1, 15))
+        
+        # Force page break after every 2 rows (i.e., 4 charts per page max)
+        if chart_pairs.index(pair) % 2 == 1:
+            content.append(PageBreak())
+        
 
     # ---------------- FORECAST ----------------
     if data.get("forecast_fig"):
