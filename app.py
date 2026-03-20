@@ -1,4 +1,3 @@
-
 # Create enhanced version with MORE GRAPHS
 import io
 import warnings
@@ -11,12 +10,12 @@ import plotly.express as px
 import plotly.graph_objects as go
 from dateutil.parser import parse
 from statsmodels.tsa.statespace.sarimax import SARIMAX
-
+from pdf_report import generate_pdf_report
 # -----------------------------
 # Page Configuration
 # -----------------------------
 st.set_page_config(
-    page_title="Finance Assistant",
+    page_title="MoneyMentor",
     page_icon="",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -629,6 +628,7 @@ if uploaded or sample_checkbox:
     st.markdown("---")
 
     # PRIMARY CHARTS SECTION
+    charts_for_pdf = []
     st.markdown("##  Spending Analysis")
 
     chart_col1, chart_col2 = st.columns(2)
@@ -656,6 +656,7 @@ if uploaded or sample_checkbox:
                 height=400
             )
             st.plotly_chart(fig, use_container_width=True)
+            charts_for_pdf.append(("Monthly Spending Trend", fig))
         else:
             st.info("Not enough data for monthly trend analysis")
 
@@ -677,6 +678,7 @@ if uploaded or sample_checkbox:
             )
             fig.update_layout(height=400)
             st.plotly_chart(fig, use_container_width=True)
+            charts_for_pdf.append(("Spending by Category", fig))
 
     st.markdown("---")
 
@@ -705,6 +707,7 @@ if uploaded or sample_checkbox:
                 height=400
             )
             st.plotly_chart(fig, use_container_width=True)
+            charts_for_pdf.append(("Daily Average Spending", fig))
 
     with acol2:
         st.markdown("###  Category Comparison (Bar)")
@@ -731,6 +734,7 @@ if uploaded or sample_checkbox:
                 height=400
             )
             st.plotly_chart(fig, use_container_width=True)
+            charts_for_pdf.append(("Category Comparison", fig))
 
     # Row 2: Day of Week & Income vs Expense
     acol3, acol4 = st.columns(2)
@@ -757,6 +761,7 @@ if uploaded or sample_checkbox:
                 height=400
             )
             st.plotly_chart(fig, use_container_width=True)
+            charts_for_pdf.append(("Spending by Day of Week", fig))
 
     with acol4:
         st.markdown("###  Income vs Expense (Monthly)")
@@ -785,6 +790,7 @@ if uploaded or sample_checkbox:
             legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
         )
         st.plotly_chart(fig, use_container_width=True)
+        charts_for_pdf.append(("Income vs Expense", fig))
 
     # Row 3: Cumulative Spending & Transaction Distribution
     acol5, acol6 = st.columns(2)
@@ -812,6 +818,7 @@ if uploaded or sample_checkbox:
                 height=400
             )
             st.plotly_chart(fig, use_container_width=True)
+            charts_for_pdf.append(("Cumulative Spending", fig))
 
     with acol6:
         st.markdown("###  Transaction Size Distribution")
@@ -832,6 +839,7 @@ if uploaded or sample_checkbox:
                 height=400
             )
             st.plotly_chart(fig, use_container_width=True)
+            charts_for_pdf.append(("Transaction Distribution", fig))
 
     st.markdown("---")
 
@@ -853,6 +861,7 @@ if uploaded or sample_checkbox:
             })
 
             fig_fc = go.Figure()
+            
             fig_fc.add_trace(go.Scatter(
                 x=monthly.index,
                 y=monthly.values,
@@ -895,6 +904,7 @@ if uploaded or sample_checkbox:
                 height=500
             )
             st.plotly_chart(fig_fc, use_container_width=True)
+            forecast_fig = fig_fc
 
             with st.expander(" View Detailed Forecast"):
                 forecast_table = fc_df.copy()
@@ -919,12 +929,36 @@ if uploaded or sample_checkbox:
             # Budget recommendations
             st.markdown("##  Smart Budget Recommendations")
             recs = budget_recommendations(df_filtered, monthly, fc_mean, target_savings_rate)
+            recommendations_for_pdf = recs
 
             for r in recs:
                 st.markdown(f"<div class='custom-card'>{r}</div>", unsafe_allow_html=True)
 
     else:
         st.warning(" Need at least 3 months of data for forecasting. Please upload more transaction history.")
+        
+    st.markdown("---")
+    st.markdown("## 📄 Download Full Report")
+
+
+    pdf_data = {
+    "total_spend": total_spend,
+    "total_income": total_income,
+    "net_cashflow": net_cashflow,
+    "savings_rate": savings_rate,
+    "charts": charts_for_pdf,
+    "forecast_fig": forecast_fig if 'forecast_fig' in locals() else None,
+    "recommendations": recommendations_for_pdf if 'recommendations_for_pdf' in locals() else []
+}
+
+    pdf_file = generate_pdf_report(pdf_data)
+
+    st.download_button(
+    label="📥 Download Report",
+    data=pdf_file,
+    file_name="Finance_Report.pdf",
+    mime="application/pdf"
+)    
 
 else:
 
