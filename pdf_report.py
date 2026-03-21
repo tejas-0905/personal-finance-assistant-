@@ -8,13 +8,32 @@ from reportlab.lib.pagesizes import A4
 import plotly.io as pio
 import os
 import io
+from PIL import Image as PILImage
 
 
 def save_plotly(fig, filename):
-    img_bytes = pio.to_image(fig, format="png")
-    with open(filename, "wb") as f:
-        f.write(img_bytes)
-    return filename
+    """Save plotly figure as image with error handling"""
+    try:
+        img_bytes = pio.to_image(fig, format="png", engine="kaleido")
+        with open(filename, "wb") as f:
+            f.write(img_bytes)
+        return filename
+    except (RuntimeError, Exception) as e:
+        # Fallback: create a simple placeholder image or skip the image
+        print(f"Warning: Could not save plotly figure to {filename}: {e}")
+        # Create a simple placeholder image using reportlab
+        from reportlab.lib.utils import ImageReader
+        from PIL import Image as PILImage
+        import numpy as np
+
+        try:
+            # Create a simple placeholder image
+            img = PILImage.new('RGB', (400, 200), color=(240, 240, 240))
+            img.save(filename)
+            return filename
+        except:
+            # If even PIL fails, return None to skip the image
+            return None
 
 
 def generate_pdf_report(data):
@@ -114,55 +133,71 @@ def generate_pdf_report(data):
 
         for title, fig in pair:
             img_path = f"{title}.png".replace(" ", "_")
-            save_plotly(fig, img_path)
-            image_paths.append(img_path)
+            saved_path = save_plotly(fig, img_path)
 
-            img = Image(img_path)
-            img.drawHeight = 200   # ✅ optimized for A4
-            img.drawWidth = 240    # ✅ half width
+            if saved_path:  # Only add image if saving was successful
+                image_paths.append(img_path)
 
-            block = [
-                Paragraph(title, styles['Heading4']),
-                Spacer(1, 5),
-                img
-            ]
-            
+                img = Image(img_path)
+                img.drawHeight = 200   # ✅ optimized for A4
+                img.drawWidth = 240    # ✅ half width
+
+                block = [
+                    Paragraph(title, styles['Heading4']),
+                    Spacer(1, 5),
+                    img
+                ]
+            else:
+                # Fallback: just add the title without image
+                block = [
+                    Paragraph(f"{title} (Chart not available)", styles['Heading4']),
+                    Spacer(1, 5),
+                    Paragraph("Chart generation failed", styles['Normal'])
+                ]
+
             row.append(block)
-        
-         # If only one chart, add empty placeholder
-        if len(row) == 1:
-            row.append("")
-        table = Table([row], colWidths=[260, 260])
-        
-        table.setStyle(TableStyle([
-            ("VALIGN", (0,0), (-1,-1), "TOP"),
-            ("ALIGN", (0,0), (-1,-1), "CENTER"),
-            ("LEFTPADDING", (0,0), (-1,-1), 10),
-            ("RIGHTPADDING", (0,0), (-1,-1), 10),
-            ("BOTTOMPADDING", (0,0), (-1,-1), 20),
-        ]))
-        
-        content.append(table)
-        content.append(Spacer(1, 15))
-        
-        # Force page break after every 2 rows (i.e., 4 charts per page max)
-        if chart_pairs.index(pair) % 2 == 1:
-            content.append(PageBreak())
+
+        # Only create table if row has content
+        if row:
+            # If only one chart, add empty placeholder
+            if len(row) == 1:
+                row.append("")
+            table = Table([row], colWidths=[260, 260])
+
+            table.setStyle(TableStyle([
+                ("VALIGN", (0,0), (-1,-1), "TOP"),
+                ("ALIGN", (0,0), (-1,-1), "CENTER"),
+                ("LEFTPADDING", (0,0), (-1,-1), 10),
+                ("RIGHTPADDING", (0,0), (-1,-1), 10),
+                ("BOTTOMPADDING", (0,0), (-1,-1), 20),
+            ]))
+
+            content.append(table)
+            content.append(Spacer(1, 15))
+
+            # Force page break after every 2 rows (i.e., 4 charts per page max)
+            if chart_pairs.index(pair) % 2 == 1:
+                content.append(PageBreak())
         
 
     # ---------------- FORECAST ----------------
     if data.get("forecast_fig"):
         img_path = "forecast.png"
-        save_plotly(data["forecast_fig"], img_path)
-        image_paths.append(img_path)
+        saved_path = save_plotly(data["forecast_fig"], img_path)
 
         content.append(Paragraph("📈 Expense Forecast", section_style))
 
-        img = Image(img_path)
-        img.drawHeight = 260
-        img.drawWidth = 460
+        if saved_path:  # Only add image if saving was successful
+            image_paths.append(img_path)
 
-        content.append(img)
+            img = Image(img_path)
+            img.drawHeight = 260
+            img.drawWidth = 460
+
+            content.append(img)
+        else:
+            content.append(Paragraph("Forecast chart generation failed", styles['Normal']))
+
         content.append(Spacer(1, 20))
 
     # ---------------- RECOMMENDATIONS ----------------
