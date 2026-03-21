@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from dateutil.parser import parse
 
-DATE_CANDIDATES = ["date","transaction_date","trans_date","timestamp","Date","DATE"]
+DATE_CANDIDATES = ["date","date_time","datetime","transaction_date","trans_date","timestamp","Date","DATE"]
 AMOUNT_CANDIDATES = ["amount","debit","expense","amt","spend","Amount","AMOUNT"]
 CATEGORY_CANDIDATES = ["category","cat","type","Category","CATEGORY","merchant_category"]
 
@@ -12,6 +12,14 @@ def find_col(cols, candidates):
     for cand in candidates:
         if cand.lower() in lower:
             return lower[cand.lower()]
+
+    # Fallback: fuzzy substring match for candidate words
+    for col in cols:
+        col_lower = col.lower()
+        for cand in candidates:
+            if cand.lower() in col_lower or col_lower in cand.lower():
+                return col
+
     return None
 
 
