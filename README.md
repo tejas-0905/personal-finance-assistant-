@@ -27,9 +27,23 @@ Personal Finance Assistant is a Python-based command-line utility that helps use
 The repository currently has a minimal structure focused on a single application entrypoint and a dependency file.
 
 ```bash
-personal-finance-assistant-/
-├─ app.py            # Main application script (core logic and CLI/entrypoint)
-└─ requirements.txt  # Python dependencies
+personal-finance-assistant/
+│
+├── app.py                  # Main Streamlit application entry point
+├── data_processing.py      # Data cleaning and preprocessing logic
+├── analytics.py            # KPI calculations and financial insights
+├── charts.py               # Visualization and dashboard charts
+├── forecasting.py          # Expense forecasting and trend prediction
+├── recommendations.py      # Smart financial recommendations
+├── pdf_report.py           # Generate downloadable PDF reports
+├── styles.py               # Custom UI styling
+│
+├── requirements.txt        # Python dependencies
+├── README.md               # Project documentation
+├── LICENSE                 # License file
+│
+├── finance-assistant.gif   # App preview
+└── personal-finance-assistant demo-video.mp4  # Demo video
 ```
 
 - `app.py`: Contains the main logic for handling user input, storing transactions (in memory or simple storage), and generating summaries.
